@@ -69,7 +69,6 @@
                             }
 
                         } else {
-
                             if (result.parentsList[par][result.imageField] != null && result.parentsList[par][result.imageField].length > 0) {
                                 parentImage = result.parentsList[par][result.imageField];
                             } else {
@@ -101,10 +100,8 @@
                         if (result.imageField.includes(".")) {
                             if (result.childrenList[child][imField[0]]) {
                                 childrenImage = result.childrenList[child][imField[0]][imField[1]];
-
                             } else {
                                 childrenImage = imageEmpty;
-
                             }
                         } else {
                             if (result.childrenList[child][result.imageField] != null && result.childrenList[child][result.imageField].length > 0) {
