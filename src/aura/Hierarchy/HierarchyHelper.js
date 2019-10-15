@@ -22,7 +22,6 @@
                     var iconSmall;
 
                     if (result.childrenList[row][result.imageField] != null && result.childrenList[row][result.imageField].length > 0) {
-
                         iconSmall = result.childrenList[row][result.imageField];
                     } else {
                         if (result.imageField != null) {
