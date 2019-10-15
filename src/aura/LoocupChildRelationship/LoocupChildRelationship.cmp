@@ -1,0 +1,53 @@
+<aura:component controller="HierarchySetupController">
+    <aura:attribute name="childRelationObject" type="Object[]"/>
+    <aura:attribute name="index" type="Integer" />
+    <aura:attribute name="currentObjectsOriginal" type="Object[]" />
+    <aura:attribute name="targetObjectRelation" type="Object[]"/>
+    <aura:attribute name="fieldList" type="Object[]" />
+    <aura:attribute name="buttonAdd" type="Boolean" default="true"/>
+    <aura:attribute name="editChildFieldObjectList" type="Object[]"/>
+
+    <aura:handler name="change" value="{!v.editChildFieldObjectList}" action="{!c.getEditField}"/>
+    <aura:handler name="change" value="{!v.childRelationObject}" action="{!c.showAddButton}"/>
+
+    <div class="slds-align_absolute-center slds-grid slds-gutters">
+        <div class="slds-col slds-medium-size--3-of-12">
+            <lightning:select name="object" label="Select an object:" aura:id="object" onchange="{!c.getObjectName}" >
+                <option value=""></option>
+                <aura:iteration items="{!v.currentObjectsOriginal}" var="object">
+                    <option text="{!object.label}" value="{!object.name}" selected="{!object.selected}" />
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-medium-size--3-of-12">
+            <lightning:select name="relatedField" label="Select related field:" aura:id="relation" onchange="{!c.getTargetRelation}" >
+                <option value=""></option>
+                <aura:iteration items="{!v.targetObjectRelation}" var="relation">
+                    <option text="{!relation.name}" value="{!relation.name}" selected="{!relation.selected}"/>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-medium-size--3-of-12" style="padding-left:10px">
+            <lightning:select name="field" label="Select object field:" aura:id="Field" onchange="{!c.getChosenField}" >
+                <option value=""></option>
+                <aura:iteration items="{!v.fieldList}" var="field">
+                    <option text="{!field.name}" value="{!field.name}" selected="{!field.selected}" />
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-medium-size--1-of-12" style="margin-top: 20px" >
+            <a onclick="{!c.removeRow}" data-record="{!index}">
+                <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                <span class="slds-assistive-text">Delete</span>
+            </a>
+        </div>
+        <div class="slds-col slds-medium-size--1-of-12" style="margin-top: 20px" >
+            <aura:renderIf isTrue="{!v.buttonAdd}">
+                <a onclick="{!c.addChildRow}" >
+                    <lightning:icon iconName="utility:add" size="small"  alternativeText="Add" />
+                    <span class="slds-assistive-text">Add</span>
+                </a>
+           </aura:renderIf>
+        </div>
+       </div>
+   </aura:component>

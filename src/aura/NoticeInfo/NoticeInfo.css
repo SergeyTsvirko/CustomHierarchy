@@ -1,0 +1,7 @@
+.THIS .break-all{
+    word-break:break-all;
+}
+
+.THIS .fullPicture {
+    min-width: 100%;
+}

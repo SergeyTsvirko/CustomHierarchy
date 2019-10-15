@@ -1,0 +1,46 @@
+<aura:component controller="HierarchySetupController">
+    <aura:attribute name="parentRelationObject" type="Object[]"/>
+    <aura:attribute name="relatedFieldList" type="List"/>
+    <aura:attribute name="referenceMap" type="List"/>
+    <aura:attribute name="childRelationshipMap" type="Object"/>
+    <aura:attribute name="objectName" type="String"/>
+    <aura:attribute name="index" type="Integer"/>
+    <aura:attribute name="buttonAdd" type="Boolean" default="true"/>
+    <aura:attribute name="editParentFieldObjectList" type="Object[]"/>
+
+    <aura:handler name="change" value="{!v.editParentFieldObjectList}" action="{!c.getEditField}"/>
+    <aura:handler name="change" value="{!v.parentRelationObject}" action="{!c.showAddButton}"/>
+
+    <div class="slds-align_absolute-center slds-grid slds-gutters">
+        <div class="slds-col slds-medium-size--5-of-12" >
+            <lightning:select name="firstObject" label="Select reference to an object:" aura:id="firstObject" onchange="{!c.getRelatedFieldList}">
+                <option value=""></option>
+                <aura:iteration items="{!v.referenceMap}" var="object">
+                    <option text="{!object.label}" value="{!object.value}" selected="{!object.selected}"/>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-medium-size--5-of-12">
+            <lightning:select name="secondObject" label="Select field" aura:id="secondObject" onchange="{!c.getChosenField}" >
+                <option value=""></option>
+                <aura:iteration items="{!v.relatedFieldList}" var="object">
+                    <option text="{!object.label}" value="{!object.value}"  selected="{!object.selected}"/>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-medium-size--1-of-12" style="margin-top: 20px" >
+            <a onclick="{!c.removeRow}" data-record="{!index}">
+                <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                <span class="slds-assistive-text">Delete</span>
+            </a>
+        </div>
+        <div class="slds-col slds-medium-size--1-of-12" style="margin-top: 20px" >
+            <aura:renderIf isTrue="{!v.buttonAdd}">
+                <a onclick="{!c.addParentRow}" >
+                    <lightning:icon iconName="utility:add" size="small" alternativeText="Add" />
+                    <span class="slds-assistive-text">Add</span>
+                </a>
+            </aura:renderIf>
+        </div>
+    </div>
+</aura:component>

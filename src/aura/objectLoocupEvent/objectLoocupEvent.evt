@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Event template" >
+	<aura:attribute name="parentRelationObject" type="Object[]"/>
+	<aura:attribute name="childRelationObject" type="Object[]"/>
+	<aura:attribute name="parentRelationObjectEdit" type="Object[]"/>
+	<aura:attribute name="childRelationObjectEdit" type="Object[]"/>
+</aura:event>
