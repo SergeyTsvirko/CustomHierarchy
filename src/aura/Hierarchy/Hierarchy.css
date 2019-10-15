@@ -1,0 +1,199 @@
+.THIS .s{
+    height:100px;
+    width: 100%;
+    background-color:#2A94D6;
+    background-color:#F5F5F5;
+    border-bottom: solid;
+    border-bottom-width: medium;
+    border-top: solid;
+    border-top-width: medium;
+    border-color:#2A94D6;
+    border-width: thin;
+    overflow: hidden;
+}
+.THIS .img{
+    max-width: 80%;
+    max-height: auto;
+}
+.THIS .ctable{
+    display: table;
+    width: 100%;
+}
+
+.THIS .ctablerow{
+    display: table-row;
+    width: 100%;
+}
+
+.THIS .ctablecell{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.THIS .connector{
+    background-color:#0070D2;
+    width:3px;
+    height:35px;
+    margin: 0 auto;
+    white-space: nowrap;
+    top:0px;
+}
+
+.THIS .more{
+    margin: auto;
+    text-align: center;
+    border-radius:50%;
+    border: 3px solid #dadee2;
+    height: 30px;
+    width: 30px;
+    line-height: 25px;
+    background: #2A94D6;
+    color: white;
+    font-weight: bold;
+    box-shadow: none;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 0.7em;
+}
+
+.THIS .rectNode{
+    margin: auto;
+    border: 1px solid #dadee2;
+    border-radius: .3125rem;
+    background: #ffffff;
+    box-shadow: none;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 35px;
+    line-height: 45px;
+}
+
+.THIS .rectNodeChildren{
+    margin: auto;
+    border: 1px solid #dadee2;
+    border-radius: .3125rem;
+    background: #ffffff;
+    box-shadow: none;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 35px;
+}
+
+.THIS .circleNode{
+    margin: auto;
+    text-align: center;
+    border-radius:50%;
+    box-shadow: none;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: cover;
+}
+
+.THIS .selfImg{
+    height: 70px;
+    width: 70px;
+    border: 3px solid #2A94D6;
+}
+
+.THIS .parentImg{
+    height: 50px;
+    width: 50px;
+    border: 3px solid #dadee2;
+}
+
+.THIS .childImg{
+    height: 30px;
+    width:  30px;
+    border: 3px solid #dadee2;
+}
+
+.THIS .iconImg{
+    height: 30px;
+    width:  30px;
+}
+
+.THIS .rectNodeSmall{
+    max-width: 16em;
+    min-width: 9em;
+    width: auto;
+    height: 90px;
+}
+
+.THIS .rectNodeNormal{
+    height: 50px;
+    width: 240px;
+}
+
+.THIS .nodeList{
+    padding: 5px;
+    width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    margin: auto;
+    position: relative;
+    border-top: 1px solid #2A94D6;
+    cursor: pointer;
+}
+
+.THIS .nodeName {
+    vertical-align: sub;
+    margin-left: 3%;
+}
+
+.THIS .nlImg{
+    height: 30px;
+    width: 30px;
+    float:left;
+}
+
+.THIS .nodeText{
+    margin-left: 35px;
+}
+
+.THIS .slds-avatar--medium {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.THIS .nodeListMain{
+    margin: auto;
+    color: #2A94D6;
+}
+
+.THIS .break {
+    overflow-wrap: normal;
+    word-wrap: normal;
+    word-break: normal;
+    line-break: auto;
+    -webkit-hyphens: none; -ms-hyphens: none; hyphens: none;
+    width: 50%;
+}
+
+@-webkit-keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3, .3, .3);
+        transform: scale3d(.3, .3, .3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3, .3, .3);
+        transform: scale3d(.3, .3, .3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

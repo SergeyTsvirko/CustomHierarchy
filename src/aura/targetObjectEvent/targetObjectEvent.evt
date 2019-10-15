@@ -1,0 +1,9 @@
+<aura:event type="COMPONENT" description="targetObjectEvent">
+    <aura:attribute name="showButton" type="Boolean" description="Show/hide button"/>
+    <aura:attribute name="relatedObj" type="Object" description="Pass name of chosen object"/>
+    <aura:attribute name="chosenObject" type="String"/>
+    <aura:attribute name="objectName" type="String"/>
+    <aura:attribute name="closingObject" type="String"/>
+    <aura:attribute name="parentRelationMap" type="Object"/>
+    <aura:attribute name="childRelationList" type="Object"/>
+</aura:event>

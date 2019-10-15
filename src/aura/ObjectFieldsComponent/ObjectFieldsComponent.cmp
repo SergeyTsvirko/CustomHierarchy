@@ -1,0 +1,116 @@
+<aura:component controller="HierarchySetupController">
+    <aura:attribute name="targetObject" type="Object[]"/>
+    <aura:attribute name="parentRelationObject" type="Object[]"/>
+    <aura:attribute name="childRelationObject" type="Object[]"/>
+    <aura:attribute name="relationObjectList" type="Object[]"/>
+    <aura:attribute name="objectsOriginal" type="Object[]" default="null"/>
+    <aura:attribute name="currentObjectsOriginal" type="Object[]" default="null"/>
+    <aura:attribute name="objects" type="Object[]"/>
+    <aura:attribute name="values" type="List" default="[]"/>
+    <aura:attribute name="fieldSet" type="String[]"/>
+    <aura:attribute name="childRelationList" type="Object"/>
+    <aura:attribute name="referenceMap" type="List"/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="imageFieldList" type="List"/>
+    <aura:attribute name="relatedImageFieldList" type="List"/>
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="parentRelationMap" type="Object"/>
+    <aura:attribute name="fieldTypeMap" type="Object"/>
+    <aura:attribute name="childRelationshipMap" type="Object"/>
+    <aura:attribute name="objectName" type="String"/>
+    <aura:attribute name="settingName" type="String" default=""/>
+    <aura:attribute name="fieldString" type="String"/>
+    <aura:attribute name="imageField" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="showSubmit" type="Boolean" default="false"/>
+    <aura:attribute name="showFieldPicklist" type="Boolean" default="false"/>
+    <aura:attribute name="showRelationTable" type="Boolean" default="false"/>
+    <aura:attribute name="parentRelationObjectEdit" type="Object[]"/>
+    <aura:attribute name="childRelationObjectEdit" type="Object[]"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <aura:handler event="c:objectLoocupEvent" action="{!c.getObjectLoocupEvent}"/>
+
+        <div class="slds-align_absolute-center slds-grid slds-wrap" style="width:55rem">
+            <div class="slds-grid slds-gutters" style="position: relative;">
+                <div class="slds-col slds-size_5-of-8" >
+                    <lightning:layout >
+                        <lightning:layoutItem flexibility="auto" padding="around-small" >
+                            <lightning:dualListbox name="fields"
+                                                   label= "Select Fields"
+                                                   sourceLabel="Available"
+                                                   selectedLabel="Selected"
+                                                   fieldLevelHelp="This is a dual listbox"
+                                                   options="{!v.options}"
+                                                   value="{!v.values}"
+                                                   onchange="{! c.handleChange }">
+                            </lightning:dualListbox>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <a onclick="{!c.handleShowNotice}" style="padding-left: 15px; margin-top: 5px">Additional field settings</a>
+                </div>
+                <div class="slds-col slds-size_3-of-8 slds-p-top_x-large ">
+                    <div class = "slds-m-right_small">
+                        <ui:inputText aura:id="fstname" value="{!v.settingName}" label="Hierarchy setting name" class="slds-input " labelClass="slds-form-element__label" required="true"/>
+                        <br/>
+
+                        <lightning:select name="firstObject" label="Select image field or reference to an object:" aura:id="firstObject" onchange="{!c.getParentObject}" >
+                            <aura:iteration items="{!v.imageFieldList}" var="object">
+                                <option text="{!object.label}" value="{!object.value}" selected="{!object.selected}" />
+                            </aura:iteration>
+                        </lightning:select>
+
+                        <aura:if isTrue="{!v.showFieldPicklist}">
+                            <lightning:select name="secondObject" label="Select image" aura:id="secondObject" onchange="{!c.getSecondParentObject}" >
+                                <option value=""></option>
+                                <aura:iteration items="{!v.relatedImageFieldList}" var="object">
+                                    <option text="{!object.label}" value="{!object.value}" selected="{!object.selected}" />
+                                </aura:iteration>
+                            </lightning:select>
+                        </aura:if>
+
+                        <div style="float: right;margin-top: 100px;" >
+                            <lightning:button variant="neutral" label="Cancel" onclick="{!c.cancelDialog}" />
+                            <lightning:button variant="brand" label="Submit" title="Submit" onclick="{!c.addHierarchy }" disabled="{! !v.showSubmit}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aura:renderIf isTrue="{!v.showRelationTable}">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered "  style="width:55rem; margin-top: 20px">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <th >
+                            <div class="slds-truncate" title="Object Name">Object Name</div>
+                        </th>
+                        <th >
+                            <div class="slds-truncate" title="Relation Name">Relation Name</div>
+                        </th>
+                        <th >
+                            <div class="slds-truncate" title="Fields list">Fields list</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!v.relationObjectList}" var="con">
+                        <tr>
+                            <th>
+                                <div title="{!con.objectName}">{!con.objectName}</div>
+                            </th>
+                            <td>
+                                <div title="{!con.relationName}">{!con.relationName}</div>
+                            </td>
+                            <th class="slds-truncate">
+                                <div title="{!con.fieldList}">{!con.fieldList}</div>
+                            </th>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </aura:renderIf>
+        </div>
+</aura:component>

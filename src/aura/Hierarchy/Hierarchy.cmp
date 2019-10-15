@@ -1,0 +1,136 @@
+<aura:component access="GLOBAL" extensible="false" implements="flexipage:availableForRecordHome,force:hasrecordId,force:hasSObjectName,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,force:appHostable" controller = "HierarchyComponentController">
+    <aura:attribute access="private" name="vchildren" type="Object"/>
+    <aura:attribute access="private" name="itemchildren" type="Object"/>
+    <aura:attribute access="private" name="vparents" type="Object"/>
+    <aura:attribute access="private" name="currentRecordMap" type="Object"/>
+    <aura:attribute access="private" name="self" type="Object"/>
+    <aura:attribute access="private" name="filteredList" type="Object"/>
+    <aura:attribute access="private" name="picture" type="String"/>
+    <aura:attribute access="private" name="cNos" type="Integer"/>
+    <aura:attribute access="private" name="childrenCount" type="Integer"/>
+    <aura:attribute access="private" name="vpIndex" type="Integer"/>
+    <aura:attribute name="hierarchyName" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute access="private" name="filter" type="String" default=""/>
+    <aura:attribute name = "relationFieldName" type="String"/>
+    <aura:attribute name="sObjectName" type="String"/>
+
+    <aura:attribute access="private" name="moreView" type="Boolean" default="false"/>
+    <aura:attribute access="private" name="childrenButton" type="Boolean" default="false"/>
+    <aura:attribute access="private" name="connector" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="aura:doneRendering" value="{!this}" action="{!c.doneRendering}"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <!-- Parents Container -->
+
+    <div class="main slds-theme_default" aura:id="main" id="main">
+        <div aura:id="searchContainer" id="searchContainer">
+            <div class="slds-grid">
+                <div class="slds-col">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                            <div onclick="{!c.hideSearchList}">
+                                <lightning:icon aura:id="searchClose" class="slds-input__icon slds-hide" iconName="utility:close" size="x-small" />
+                            </div>
+                            <ui:inputText aura:id="filter" class="slds-input" placeholder="Search" updateOn="keyup" keyup="{!c.filter}" value="{!v.filter}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-hide" aura:id="searchList">
+                <div class="slds-col">
+                    <ul class="slds-has-dividers--bottom slds-has-block-links--space">
+                        <aura:iteration items="{!v.filteredList}" var="item">
+                            <li class="slds-item" id="{!item.Id}" onclick="{!c.navigateSearch}">
+                                <a id="{!item.Id}">{!item.Name}</a>
+                            </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="height:15px;width:100%;"></div>
+        <div aura:id="parentsContainer">
+            <aura:if isTrue="{!v.pMore}">
+                <div class="nodeContainer more" onclick="{!c.showAllParents}">+{!v.vpIndex}</div>
+            </aura:if>
+            <aura:iteration items="{!v.vparents}" var="parent" indexVar="vIndex">
+                <div class="nodeContainer zoomIn rectNode rectNodeNormal slds-grid slds-gutters">
+                    <div id="{!parent.Id}" onclick="{!c.navigateHierarchyMain}" class="zoomIn slds-col slds-size_1-of-3">
+                        <img id="{!parent.Id}" src="{!parent.Image}" class="img"/>
+                    </div>
+                    <div id="{!parent.Id}" class="slds-col slds-size_2-of-3" onclick="{!c.navigateHierarchyMain}">
+                        {!parent.Name}
+                    </div>
+                </div>
+                <div class="connContainer">
+                    <div style="text-align: center;font-size: 30px;margin-top: -10px;"> &darr;</div>
+                </div>
+            </aura:iteration>
+        </div>
+
+        <!-- Self Container -->
+        <div class="s" aura:id="selfContainer">
+            <div id="{!v.self.id}" onclick="{!c.leftIconClicked}" class="zoomIn slds-avatar--small">
+                <img id="{!v.self.id}" src="{!v.rnIconLeftURL}" class="img"/>
+            </div>
+            <div class="rectNode rectNodeNormal slds-grid slds-gutters " >
+                <div id="{!v.self.id}" onclick="{!c.handleShowNotice}" class="slds-avatar--large slds-col slds-size_1-of-3">
+                    <img id="{!v.self.id}" src="{!v.picture}" class="img" style="margin-top: 3px;"/>
+                </div>
+                <div id="{!v.self.id}" class="slds-col slds-size_2-of-3" onclick="{!c.handleShowNotice}">
+                    {!v.self.Name}
+                </div>
+            </div>
+        </div>
+
+        <!-- Children Container -->
+        <div class="c ctable" aura:id="childrenContainer">
+            <div class="ctablerow">
+                <aura:iteration items="{!v.vchildren}" var="children" indexVar="vIndex">
+                    <div class="ctablecell connContainer">
+                        <div style="text-align: center;font-size: 30px;margin-top: -10px;"> &darr;</div>
+                    </div>
+                </aura:iteration>
+                <aura:if isTrue="{!v.childrenButton}">
+                    <div class="ctablecell connContainer">
+                        <div style="text-align: center;font-size: 30px;margin-top: -10px;"> &darr;</div>
+                    </div>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!v.childrenButton}">
+                <div class="ctablecell">
+                    <div class="more" onclick="{!c.showAllChildren}">
+                        <span>+{!v.childrenCount}</span>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:iteration items="{!v.vchildren}" var="children">
+                <div class="ctablecell ctablecellpad">
+                    <div class="rectNodeChildren rectNodeSmall break" id="{!children.Id}" onclick="{!c.navigateHierarchyMain}">
+                        <div id="{!children.Id}" class="slds-avatar slds-avatar--medium"  style="margin-top: 5%;">
+                            <img id="{!children.Id}" src="{!children.Image}" class="img"/>
+                        </div>
+                        <div id="{!children.Id}" class="zoomIn circleNode" onclick="{!c.navigateHierarchyMain}">
+                            {!children.Name}
+                        </div>
+                    </div>
+                </div>
+            </aura:iteration>
+        </div>
+
+        <!-- ChildrenList container -->
+        <aura:if isTrue="{!v.moreView}"><br/>
+            <aura:iteration items="{!v.itemchildren}" var="item">
+                <div id="{!item.Id}" class="nodeList nodeListMain" onclick="{!c.navigateHierarchyMain}" >
+                    <div id="{!item.Id}" class="circleNode nlImg" style="{!item.iconSmall}"></div>
+                    <span id="{!item.Id}" class="nodeName">&nbsp;{!item.Name}</span>
+                </div>
+            </aura:iteration>
+        </aura:if>
+        <div style="height:15px;width:100%;"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>HierarchyComponentController</members>
+        <members>HierarchyComponentTest</members>
+        <members>HierarchySetupController</members>
+        <members>HierarchySetupTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Hierarchy</members>
+        <members>HierarchyRelationshipComponent</members>
+        <members>HierarchySetupComponent</members>
+        <members>LoocupChildRelationship</members>
+        <members>LoocupFieldSetting</members>
+        <members>LoocupParentRelationship</members>
+        <members>NoticeInfo</members>
+        <members>ObjectFieldsComponent</members>
+        <members>addObjectEvent</members>
+        <members>extraLinesEvent</members>
+        <members>objectLoocupEvent</members>
+        <members>targetObjectEvent</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>question_mark</members>
+        <name>StaticResource</name>
+    </types>
+    <version>46.0</version>
+</Package>

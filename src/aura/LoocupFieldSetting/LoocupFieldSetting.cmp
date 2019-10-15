@@ -1,0 +1,94 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="HierarchySetupController" >
+    <aura:attribute name="parentRelationObject" type="Object[]"/>
+    <aura:attribute name="childRelationObject" type="Object[]"/>
+    <aura:attribute name="currentObjectsOriginal" type="Object[]" default="null"/>
+
+    <aura:attribute name="editParentFieldObjectList" type="Object[]"/>
+    <aura:attribute name="editChildFieldObjectList" type="Object[]"/>
+
+    <aura:attribute name="childRelationList" type="Object"/>
+
+    <aura:attribute name="referenceMap" type="List"/>
+    <aura:attribute name="childRelationshipMap" type="Object"/>
+    <aura:attribute name="parentRelationMap" type="Object"/>
+    <aura:attribute name="objectName" type="String" />
+    <aura:attribute name="parentSubmit" type="Boolean" />
+    <aura:attribute name="childSubmit" type="Boolean" />
+    <aura:attribute name="parentLookup" type="Boolean" default="false"/>
+    <aura:attribute name="childLookup" type="Boolean" default="false"/>
+    <aura:attribute name="displayParentTab" type="Boolean" default="false"/>
+    <aura:attribute name="displayChildTab" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.parentRelationObject}" action="{!c.checkParentLookupList}"/>
+    <aura:handler name="change" value="{!v.childRelationObject}" action="{!c.checkChildrenLookupList}"/>
+
+    <aura:registerEvent name="objectLoocupEvt" type="c:objectLoocupEvent" />
+
+    <lightning:overlayLibrary aura:id="popuplib"/>
+    <lightning:recordEditForm aura:id="editForm">
+        <lightning:messages />
+
+        <div class="slds-tabs_default">
+            <ul class="slds-tabs_default__nav" style="justify-content: space-around;" role="tablist">
+                <li class="{!if(v.displayParentTab,'slds-tabs_default__item slds-is-active','slds-tabs_default__item')}" title="Item One" role="presentation">
+                    <a onclick="{!c.getRelationTab}"
+                       class="slds-tabs_default__link"
+                       href="javascript:void(0);"
+                       role="tab" tabindex="0"
+                       aria-selected="true"
+                       aria-controls="tab-default-1"
+                       id="true">Parent lookup fields</a>
+                </li>
+                <li class="{!if(v.displayChildTab,'slds-tabs_default__item slds-is-active','slds-tabs_default__item')}" title="Item Two" role="presentation">
+                    <a onclick="{!c.getRelationTab}"
+                       class="slds-tabs_default__link"
+                       href="javascript:void(0);"
+                       role="tab" tabindex="-1"
+                       aria-selected="false"
+                       aria-controls="tab-default-2"
+                       id="false">Child lookup fields</a>
+                </li>
+            </ul>
+
+            <div id="tab-default-1" class="{!if(v.displayParentTab,'slds-tabs_default__content slds-show','slds-tabs_default__content slds-hide')}" role="tabpanel" aria-labelledby="true">
+                <aura:iteration items="{!v.parentRelationObject}" var="obj" indexVar="index">
+                    <c:LoocupParentRelationship childRelationshipMap="{!v.childRelationshipMap}"
+                                                referenceMap="{#v.referenceMap}"
+                                                objectName="{!v.objectName}"
+                                                index="{!index + 1}"
+                                                parentRelationObject ="{!v.parentRelationObject}"
+                                                editParentFieldObjectList = "{!v.editParentFieldObjectList}"/>
+                </aura:iteration><br/>
+
+                <div class="alligncenter" >
+                    <aura:renderIf isTrue="{!v.parentLookup}">
+                        <lightning:button label="Add row" title="Add object" onclick="{!c.addParentRow}"/>
+                    </aura:renderIf>
+                </div>
+            </div>
+            <div id="tab-default-2" class="{!if(v.displayChildTab,'slds-tabs_default__content slds-show','slds-tabs_default__content slds-hide')}" role="tabpanel" aria-labelledby="false">
+
+                <aura:iteration items="{!v.childRelationObject}" var="obj" indexVar="index">
+                    <c:LoocupChildRelationship currentObjectsOriginal="{#v.currentObjectsOriginal}"
+                                               childRelationObject="{!v.childRelationObject}"
+                                               editChildFieldObjectList="{!v.editChildFieldObjectList}"
+                                               index="{!index + 1}" />
+                </aura:iteration><br/>
+
+                <div class="alligncenter">
+                    <aura:renderIf isTrue="{!v.childLookup}">
+                        <lightning:button label="Add row" title="Add object" onclick="{!c.addChildRow}"/>
+                    </aura:renderIf>
+                </div>
+            </div>
+        </div>
+            <div class="allignright">
+                <lightning:button  variant="brand"
+                                   label="Save"
+                                   disabled="{!! if(!v.parentSubmit, if(!v.childSubmit, true, false), false)}"
+                                   title="Save"
+                                   onclick="{!c.submitFields}"/>
+            </div>
+    </lightning:recordEditForm>
+</aura:component>

@@ -1,0 +1,11 @@
+.THIS .allignright{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end
+}
+
+.THIS .alligncenter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around
+}
