@@ -1,6 +1,5 @@
 ({
     doInit : function(component, event, helper, objectId) {
-        //12
         $A.createComponent("c:NoticeInfo", {}, function(content, status) {});
 
         var action = component.get("c.getObjectRelations");
